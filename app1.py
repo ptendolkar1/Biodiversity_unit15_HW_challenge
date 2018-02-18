@@ -11,8 +11,6 @@ from flask import (
 # Flask Setup
 #################################################
 app = Flask(__name__)
-
-print("pt1")
 #################################################
 # Data is fetched from csv files to Pandas dataframes
 #################################################
@@ -33,13 +31,7 @@ metadata_df = metadata_df.fillna(0)
 # extract required column as a list  
 sample_IDs = metadata_df['SAMPLEID'].tolist()
 
-
-# @app.before_first_request
-# def setup():
-#     # Recreate database each time for demo
-#     db.drop_all()
-#     db.create_all()
-#     print("pt4")
+sample_names = ["BB_" + str(s) for s in sample_IDs]
 
 
 #################################################
@@ -49,7 +41,10 @@ sample_IDs = metadata_df['SAMPLEID'].tolist()
 @app.route("/")
 # Returns the dashboard homepage.
 def home():
-    return "Welcome!"
+    # return "Welcome!"
+    sample_names = ["BB_" + str(s) for s in sample_IDs]
+    print(sample_names)
+    return render_template('index.html', sample_names=sample_names)
 
 @app.route('/names')
 # List of sample names.
@@ -113,9 +108,10 @@ def samplefunction(sample):
     row_df = metadata_df.loc[metadata_df['SAMPLEID'] == sample_id]
     # df with needed columns
     sample_df = row_df[['AGE','BBTYPE','ETHNICITY','GENDER','LOCATION','SAMPLEID']]
-    # 'records' arg creates dict in required format
-    sample_dict = sample_df.to_dict('records')
-    return(jsonify(sample_dict))
+    # 'records' arg creates a list of dictionaries (here only 1 dict)
+    sample_dict = sample_df.to_dict('records') 
+    # [0] returns dict in { } format, without [0] it returns in [{ }] foramt as its a list.
+    return(jsonify(sample_dict[0])) 
 
 @app.route('/wfreq/<sample>')
     # Weekly Washing Frequency as a number.
@@ -129,10 +125,10 @@ def wash_freq(sample):
     sample_id = int(sample[3:])
     # single row df created below
     row_df = metadata_df.loc[metadata_df['SAMPLEID'] == sample_id] 
-    print("pt1")
-    # df with needed columns
-    WFREQ = int(row_df.iloc[0]['WFREQ'])
-    print("pt2")
+    print(row_df)
+    # df with needed columns. Rounded because BB_963 has freq 3.5 
+    WFREQ = int(round((row_df.iloc[0]['WFREQ'])))
+    #print(WFREQ)
     return(jsonify(WFREQ))
 
 
@@ -165,7 +161,7 @@ def ids_values(sample):
     samples_df = pd.read_csv("./DataSets/belly_button_biodiversity_samples.csv", index_col=None)
     # fill NaNs with 0's
     samples_df = samples_df.fillna(0)  
-    # get the 2 required columns; one is passed sample in function arg.
+    # get the 2 required columns; one is passed sample from function arg.
     id_values_df = samples_df[['otu_id', sample]].copy()
     values_descend_df = id_values_df.sort_values(sample, ascending=False)
     values_descend_df[sample] = values_descend_df[sample].astype(int) # convert sample column values to 'int's
@@ -175,5 +171,7 @@ def ids_values(sample):
     values_descend_list.append(values_descend_dict.copy())
     return(jsonify(values_descend_list))
 
+
+
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

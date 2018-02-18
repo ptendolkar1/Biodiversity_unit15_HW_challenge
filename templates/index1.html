@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Belly_Button_Biodiversity_unit15_visualization_HW</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <link rel="stylesheet" href="/static/app.css" type="text/css">
+</head>
+
+<body>  <!--Insert background="background image.JPG" but result text needs adjustment-->
+  <div class="container">
+    <div class="jumbotron">
+      <h1 class='head'>Belly Button Biodiversity Dashboard</h1>
+      <p class='head'>Use the interactive charts below to explore the dataset.</p>
+    </div>
+  </div>
+
+  <select name="" id="selection">
+    {% for item in sample_names %}
+      <option value="{{item}}">{{item}}</option>
+    {% endfor %}
+  </select>
+
+    <!--<select id="selDataset" onchange="optionChanged(this.value)"></select>
+    <script>
+      function optionChanged(value) {
+          var para = document.createElement("P"); 	// Create a <p> 
+          var t = document.createTextNode("This is a paragraph."); //Create text node
+          para.appendChild( t );			//Append the text to <p>
+          document.getElementById("myDIV").appendChild(para);	 //Append <p> to <div> with id="myDIV"
+      }
+      </script>-->
+      
+
+  
+  <!-- creates/displays option select box with options below -->
+
+<ul id="meta">
+</ul>
+
+
+<div id="pie"></div>
+
+<script src="plotly1.js"></script>
+</body>
+
+</html>
