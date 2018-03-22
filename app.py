@@ -176,4 +176,4 @@ def ids_values(sample):
 
 
 if __name__ == "__main__":
-    app.run(port=envport if envport != None else 5000, host="0.0.0.0")
+    app.run(port=int(envport) if envport != None else 5000, host="0.0.0.0")
