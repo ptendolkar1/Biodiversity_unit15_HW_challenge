@@ -12,6 +12,7 @@ from flask import (
 # Flask Setup
 #################################################
 app = Flask(__name__)
+envport = os.environ.get('PORT')
 #################################################
 # Data is fetched from csv files to Pandas dataframes
 #################################################
@@ -175,4 +176,4 @@ def ids_values(sample):
 
 
 if __name__ == "__main__":
-    app.run(port=int(os.environ.get('PORT')), host="0.0.0.0")
+    app.run(port=envport if envport != None else 5000, host="0.0.0.0")
