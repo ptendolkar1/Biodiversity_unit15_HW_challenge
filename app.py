@@ -1,6 +1,7 @@
 # import necessary libraries
 import pandas as pd
 import numpy as np
+import os
 from flask import (
     Flask,
     render_template,
@@ -174,4 +175,4 @@ def ids_values(sample):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=int(os.environ.get('PORT')), host="0.0.0.0")
